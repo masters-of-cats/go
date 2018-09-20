@@ -34,6 +34,32 @@ func basename(name string) string {
 	return name
 }
 
+// splitPath returns the base name and parent directory
+func splitPath(path string) (string, string) {
+	// if no better parent is found, the path is relative from "here"
+	var dirname = "."
+	// if no slashes in path, base is path
+	basename := path
+
+	i := len(path) - 1
+
+	// Remove trailing slashes
+	for ; i > 0 && path[i] == '/'; i-- {
+		path = path[:i]
+	}
+
+	// Remove leading directory path
+	for i--; i >= 0; i-- {
+		if path[i] == '/' {
+			dirname = path[:i+1]
+			basename = path[i+1:]
+			break
+		}
+	}
+
+	return dirname, basename
+}
+
 func fixRootDirectory(p string) string {
 	return p
 }
